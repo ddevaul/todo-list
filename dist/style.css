@@ -50,20 +50,21 @@ body{
 }
 
 .projects, .todos{
+    min-height: calc(100vh - 9rem);
     height: 100%;
     width: 100%;
     overflow: auto;
-
-    /* background-color: red; */
+    background-color: red;
 }
 
 .projects{
-    /* background-color: blue; */
     border-right: 2px solid black;
 }
+
 .projects-header,
 .todo-header{
     font-size: 2rem;
+    height: 3rem;
     width: 100%;
     text-align: center;
     border-bottom: 2px solid rgb(110, 110, 110);
@@ -73,8 +74,11 @@ body{
     border-right: 2px solid black;
 }
 
-.todos-content,
-.projects-content{
-    height: 100%;
-    width: 100%;
+.todo-item{
+    background-color: rgb(119, 0, 255);
+}
+
+.test{
+    height: 500px;
+    background-color: blue;
 }
