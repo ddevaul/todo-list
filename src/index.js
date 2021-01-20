@@ -1,1 +1,0 @@
-alert('webpack is working')
