@@ -10,6 +10,6 @@
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-eval("alert('webpack is working')\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
+eval("\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
 /******/ })()
 ;
