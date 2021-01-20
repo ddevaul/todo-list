@@ -27,8 +27,16 @@ body{
 }
 
 .logo, .title{
-    font-size: 3rem;;
+    font-size: 3rem;
     margin-left: 1rem;
     margin-right: 1rem;
     height: 3rem;
+}
+
+.logo {
+    height: 5rem;
+    width: 5rem;
+    background-image: url(checkmark-logo.png);
+    background-size: 5rem;
+    background-repeat: no-repeat;
 }
