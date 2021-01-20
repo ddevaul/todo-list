@@ -17,6 +17,8 @@ body{
 }
 
 .header{
+    position: fixed;
+    top: 0;
     width: 100%;
     height: 6rem;
     background-color: rgb(207, 207, 207);
@@ -39,4 +41,34 @@ body{
     background-image: url(checkmark-logo.png);
     background-size: 5rem;
     background-repeat: no-repeat;
+}
+.two-columns{
+    height: calc(100vh - 6rem);
+    margin-top: 6rem;
+    display: grid;
+    grid-template-columns: 30rem auto;
+}
+
+.projects, .todos{
+    height: 100%;
+    width: 100%;
+    /* background-color: red; */
+}
+
+.projects{
+    /* background-color: blue; */
+    border-right: 2px solid black;
+}
+.projects-header,
+.todo-header{
+    font-size: 2rem;
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid rgb(110, 110, 110);
+}
+
+.todos-content,
+.projects-content{
+    height: 100%;
+    width: 100%;
 }
