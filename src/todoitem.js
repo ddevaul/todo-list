@@ -1,33 +1,62 @@
-class todoItem{
+class ToDoItem{
     constructor(){
-        this.name = "test"
-       
+        this.node = this.createNode()
     }
     createNode(){
-        const outerdiv = document.createElement('div')
-        const completed = document.createElement('button')
-        completed.classList.add('completed-button')
+        const todoItemDiv = document.createElement('div')
+        const completedButtonDiv = document.createElement('div')
+        completedButtonDiv.classList.add('completed-button-div')
+        const completedButton = document.createElement('button')
+        completedButton.addEventListener('click', () => {
+            completedButton.classList.toggle('completed-button-completed')
+        })
+        completedButton.classList.add('completed-button')
+        completedButtonDiv.appendChild(completedButton)
+        const titleDiv = document.createElement('div')
+        titleDiv.classList.add('task-title-div')
         const title = document.createElement('input')
+        titleDiv.classList.add('task-title-div')
         title.classList.add('task-title')
+        titleDiv.appendChild(title)
 
-        const date = document.createElement('div')
-        date.textContent = "DATE"
-        date.classList.add('date')
+        const dateDiv = document.createElement('div')
+        dateDiv.classList.add('date-div')
+        const delButton = document.createElement('button')
+        delButton.classList.add('material-icons')
+        delButton.textContent = "delete"
+        const dateInput = document.createElement('input')
+        dateInput.type = 'datetime-local'
+        dateInput.classList.add('date-input')
+        dateDiv.appendChild(dateInput)
+        dateDiv.appendChild(delButton)
+
         
-        const edit = document.createElement('button')
-        edit.classList.add('edit-button')
-
+        const addNoteDiv = document.createElement('div')
+        addNoteDiv.classList.add('addnote-button-div')
         const addNote = document.createElement('button')
         addNote.classList.add('addnote-button')
+        addNote.addEventListener('click', () => {
+            description.classList.toggle('description-hidden')
+            description.classList.toggle('description-visible')
 
-        outerdiv.classList.add('todo-item')
-        outerdiv.appendChild(completed)
-        outerdiv.appendChild(title)
-        outerdiv.appendChild(date)
-        outerdiv.appendChild(edit)
-        outerdiv.appendChild(addNote)
-        return outerdiv;
+        })
+        addNoteDiv.appendChild(addNote)
+        addNote.textContent = "Add Description"
+
+        const description = document.createElement('textarea')
+        description.classList.add('description-hidden')
+        
+
+
+        todoItemDiv.classList.add('todo-item')
+        todoItemDiv.appendChild(completedButtonDiv)
+        todoItemDiv.appendChild(titleDiv)
+        todoItemDiv.appendChild(dateDiv)
+        todoItemDiv.appendChild(addNoteDiv)
+        addNoteDiv.appendChild(description)
+ 
+        return todoItemDiv
     }
 }
 
-export {todoItem};
+export {ToDoItem}
