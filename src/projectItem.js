@@ -1,6 +1,10 @@
+import {ToDoItem} from './todoItem'
+
+
 class ProjectItem{
     constructor(){
-
+        this.items = [new ToDoItem(), new ToDoItem(), new ToDoItem()]
+        this.node = this.createNode()
     }
     createNode(){
         const projectItemDiv = document.createElement('div')
@@ -21,13 +25,10 @@ class ProjectItem{
         projectItemDiv.appendChild(deleteButton)
         projectItemDiv.appendChild(editButton)
         projectItemDiv.appendChild(titleDiv)
-        // todoItemOuter.appendChild(description)
-        // outerdiv.appendChild(styleDivLeft)
-        // outerdivExceptNotes.appendChild(description)
-        // outerdiv.appendChild(styleDivRight)
-
-
+ 
         return projectItemDiv
     }
+
 }
+
 export {ProjectItem}
