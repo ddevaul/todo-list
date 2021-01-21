@@ -49,16 +49,17 @@ body{
     grid-template-columns: 30rem auto;
 }
 
-.projects, .todos{
+.projects-container, .todos-container{
     min-height: calc(100vh - 9rem);
     height: 100%;
     width: 100%;
     overflow: auto;
-    background-color: red;
+    background-color: rgb(228, 228, 228);
+
 }
 
-.projects{
-    border-right: 2px solid black;
+.todos-container{
+    border-left: 2px solid black;
 }
 
 .projects-header,
@@ -74,11 +75,94 @@ body{
     border-right: 2px solid black;
 }
 
-.todo-item{
-    background-color: rgb(119, 0, 255);
+.todo-item-outer{
+    display: flex;
+    flex-direction: column;
+
 }
 
-.test{
-    height: 500px;
-    background-color: blue;
+.todo-item {
+    min-height: 6rem;
+    background-color: rgb(255, 255, 255);
+    display: grid;
+    grid-template-areas:
+    "check task date"
+    "check addNote date";
+    grid-template-columns: 4fr 43fr 6fr;
+    grid-template-rows: auto auto 0px;
+    border-bottom: 2px solid rgb(110, 110, 110);
 }
+
+.todo-item .task-title-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 3rem;
+    padding-top: .5rem;
+}
+
+.todo-item .task-title{
+    width: 90%;
+    font-size: 1.5rem;
+    height: 2rem;
+}
+
+.todo-item .completed-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-area: check;
+    border-right: 2px solid black;
+}
+
+.todo-item .completed-button {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.todo-item .completed-button-completed {
+    background-color: black;
+}
+
+.todo-item .date-div {
+    grid-area: date;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 2px solid black;
+    padding-left: .25rem;
+    padding-right: .25rem;
+}
+
+.todo-item .date-input{
+    width: 100%;
+}
+.todo-item .addnote-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    grid-area: addNote;
+    padding-bottom: .5rem;
+}
+
+.todo-item .addnote-button{
+    margin: .5rem;
+}
+
+.todo-item .description-hidden{
+    display: none;
+}
+
+.todo-item .description-visible{
+    display: block;
+    background-color: white;
+    height: 4rem;
+    width: 90%;
+}
+
+
+
