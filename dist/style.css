@@ -88,8 +88,12 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 4rem;
-    background-color: rgb(94, 94, 94);
+    background-color: rgb(185, 185, 185);
     border-bottom: 2px solid rgb(224, 224, 224);
+}
+
+.project-item-selected{
+    background-color:rgb(173, 222, 255);
 }
 
 
@@ -116,6 +120,10 @@ body{
     grid-template-columns: 4fr 43fr 6fr;
     grid-template-rows: auto auto 0px;
     border-bottom: 2px solid rgb(110, 110, 110);
+}
+
+.todo-item-completed{
+    background-color: rgb(129, 129, 129);
 }
 
 .todo-item .task-title-div{
