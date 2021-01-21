@@ -130,11 +130,16 @@ body{
 .todo-item .date-div {
     grid-area: date;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    flex-direction: column;
     border-left: 2px solid black;
     padding-left: .25rem;
     padding-right: .25rem;
+}
+
+.todo-item .date-div button{
+    margin: .5rem;
 }
 
 .todo-item .date-input{
