@@ -201,6 +201,13 @@ body{
     height: 4rem;
     width: 90%;
 }
+.add-todo-item-container{
+    display:flex;
+    margin: .5rem;
+    justify-content: center;
+}
 
-
-
+.add-todo-item-button{
+    height: 3rem;
+    width: 10rem;
+}
