@@ -1,8 +1,10 @@
 import {ToDoItem} from './todoItem'
+import {AddToDoItem} from './addToDoItem'
+
 
 class ProjectItem{
     constructor(todoContainer){
-        this.items = [new ToDoItem()]
+        this.items = [new ToDoItem(), new ToDoItem()]
         this.node = this.createNode(todoContainer)
     }
     createNode(){
@@ -32,6 +34,13 @@ class ProjectItem{
         projects.forEach(project => project.node.classList.remove('project-item-selected'))
         this.items.forEach(item => todoContainer.appendChild(item.node))
         this.node.classList.add("project-item-selected")
+        const addButton = new AddToDoItem(this.items)
+        addButton.node.addEventListener('click', () => {
+            this.items.push(new ToDoItem())
+            todoContainer.removeChild(todoContainer.lastChild)
+            this.loadItems(todoContainer, projects)
+        })
+        todoContainer.appendChild(addButton.node)
     }
 }
 
