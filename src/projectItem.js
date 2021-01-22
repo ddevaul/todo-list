@@ -28,11 +28,21 @@ class ProjectItem{
         return projectItemDiv
     }
     loadItems(todoContainer, projects){
+
         while (todoContainer.hasChildNodes()){
             todoContainer.removeChild(todoContainer.firstChild)
         }
         projects.forEach(project => project.node.classList.remove('project-item-selected'))
-        this.items.forEach(item => todoContainer.appendChild(item.node))
+        this.items.forEach(item => {
+            item.delButton.addEventListener('click', () => {
+                this.items = this.items.filter(i => {
+                    return i !== item
+                })
+                console.log(this.items)
+                this.loadItems(todoContainer, projects)
+            })
+            todoContainer.appendChild(item.node)
+        })
         this.node.classList.add("project-item-selected")
         const addButton = new AddToDoItem(this.items)
         addButton.node.addEventListener('click', () => {
