@@ -22,7 +22,7 @@ class ToDoItem{
         const dateDiv = document.createElement('div')
         dateDiv.classList.add('date-div')
         const delButton = document.createElement('button')
-        delButton.classList.add('material-icons')
+        this.delButton = delButton
         delButton.textContent = "delete"
         const dateInput = document.createElement('input')
         dateInput.type = 'datetime-local'
@@ -45,8 +45,6 @@ class ToDoItem{
 
         const description = document.createElement('textarea')
         description.classList.add('description-hidden')
-        
-
 
         todoItemDiv.classList.add('todo-item')
         todoItemDiv.appendChild(completedButtonDiv)
@@ -54,7 +52,7 @@ class ToDoItem{
         todoItemDiv.appendChild(dateDiv)
         todoItemDiv.appendChild(addNoteDiv)
         addNoteDiv.appendChild(description)
- 
+
         return todoItemDiv
     }
 }
