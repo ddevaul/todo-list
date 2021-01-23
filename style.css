@@ -66,13 +66,27 @@ body{
     font-size: 2rem;
     height: 3rem;
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
     padding-top: .25rem;
     border-bottom: 2px solid rgb(110, 110, 110);
 }
 
 .projects-header{
     border-right: 2px solid black;
+}
+
+.two-columns .sub-title{
+    width: 4rem;
+    margin-left: calc(50% - 4rem);
+}
+
+.todo-header button,
+.projects-header button{
+    width: 3rem;
+    height: 2rem;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .todo-item-outer{
