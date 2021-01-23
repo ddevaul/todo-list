@@ -1,5 +1,5 @@
 function makeToDoItemView(todoItem) {
-        const todoItemDiv = document.createElement('div')
+    const todoItemDiv = document.createElement('div')
     const completedButtonDiv = document.createElement('div')
     completedButtonDiv.classList.add('completed-button-div')
     const completedButton = document.createElement('button')
@@ -24,14 +24,14 @@ function makeToDoItemView(todoItem) {
 
     const dateDiv = document.createElement('div')
     dateDiv.classList.add('date-div')
-    const delButton = document.createElement('button')
-    delButton.textContent = "delete"
+    const deleteButton = document.createElement('button')
+    deleteButton.textContent = "delete"
     const dateInput = document.createElement('input')
     dateInput.type = 'datetime-local'
     dateInput.classList.add('date-input')
     dateInput.value = todoItem.date
     dateDiv.appendChild(dateInput)
-    dateDiv.appendChild(delButton)
+    dateDiv.appendChild(deleteButton)
 
     
     const addNoteDiv = document.createElement('div')
@@ -57,7 +57,7 @@ function makeToDoItemView(todoItem) {
     todoItemDiv.appendChild(addNoteDiv)
     addNoteDiv.appendChild(description)
 
-    return todoItemDiv
+    return {todoItemDiv, deleteButton}
 }
 
 function makeProjectItemView(){
@@ -78,7 +78,7 @@ function makeProjectItemView(){
     projectItemDiv.appendChild(editButton)
     projectItemDiv.appendChild(titleDiv)
 
-    return projectItemDiv
+    return {projectItemDiv, deleteButton}
 }
 
 const todoListView = (function(){
@@ -87,4 +87,14 @@ const todoListView = (function(){
     return {todoContainer, projectContainer}
 })()
 
-export {makeToDoItemView, makeProjectItemView, todoListView}
+function createAddToDoItemButton(){
+    const outerdiv = document.createElement('div')
+    const plusButton = document.createElement('button')
+    outerdiv.classList.add('add-todo-item-container')
+    plusButton.classList.add('add-todo-item-button')
+    plusButton.textContent = "+ Add a New To Do Item"
+    outerdiv.appendChild(plusButton)
+    return outerdiv
+}
+
+export {makeToDoItemView, makeProjectItemView, todoListView, createAddToDoItemButton}
