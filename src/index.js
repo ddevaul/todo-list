@@ -1,6 +1,5 @@
-import {AddToDoItem} from './addToDoItem'
 import {ToDoItem, ProjectItem, todoList} from './model'
-import {makeToDoItemView, makeProjectItemView, todoListView} from './view'
+import {makeToDoItemView, makeProjectItemView, todoListView, createAddToDoItemButton} from './view'
 
 
 
@@ -13,14 +12,32 @@ addItemHeaderButton.addEventListener('click', addItem)
 const addProjectButton = document.querySelector('#projects-add-button')
 addProjectButton.addEventListener('click', addProject)
 
-function initialize() {
+function loadProjects() {
     projects.forEach(project => {
             const temp = makeProjectItemView()
-            projectContainer.appendChild(temp)
-            temp.addEventListener('click', () => selectProject(project))
-            // project.deleteButton.addEventListener('click', () => deleteProject(project))
+            projectContainer.appendChild(temp.projectItemDiv)
+            temp.projectItemDiv.addEventListener('click', (e) => {
+                if (e.target.nodeName !== 'BUTTON'){
+                    selectProject(project)
+                }
+            })
+            temp.deleteButton.addEventListener('click', () => deleteProject(project))
     })
     selectProject(projects[0])
+}
+
+function loadItems(){
+    while (todoContainer.hasChildNodes()){
+        todoContainer.removeChild(todoContainer.firstChild)
+    }
+    selectedProject.items.forEach(item => {
+        const temp = makeToDoItemView(item)
+        todoContainer.appendChild(temp.todoItemDiv)
+        temp.deleteButton.addEventListener('click', () => deleteItem(item))
+    })
+    const add = createAddToDoItemButton()
+    todoContainer.appendChild(add)
+    add.addEventListener('click', addItem)    
 }
 
 function selectProject(project){
@@ -30,7 +47,6 @@ function selectProject(project){
         node.classList.remove('project-item-selected')
     }
     selectedProject = project
-    console.log("selectedproject: " + project)
     const index = projects.findIndex(p => p === project)
     const node = projectContainer.childNodes.item(index)
     node.classList.add('project-item-selected')            
@@ -38,46 +54,52 @@ function selectProject(project){
 }
 
 
-function loadItems(){
-    while (todoContainer.hasChildNodes()){
-        todoContainer.removeChild(todoContainer.firstChild)
-    }
-    selectedProject.items.forEach(item => {
-        const temp = makeToDoItemView(item)
-        todoContainer.appendChild(temp)
-        // item.delButton.addEventListener('click', () => deleteItem(item))
-    })
-    const add = new AddToDoItem()
-    todoContainer.appendChild(add.node)
-    add.node.addEventListener('click', addItem)
-
-    
-}
-
 function addItem(){
-    selectedProject.items.push(new ToDoItem())
-    todoContainer.removeChild(todoContainer.lastChild)
-    loadItems()
+    const item = new ToDoItem()
+    console.log(item)
+    selectedProject.items.push(item)
+    const itemView = makeToDoItemView(item)
+    todoContainer.insertBefore(itemView.todoItemDiv, todoContainer.lastChild)
+    itemView.deleteButton.addEventListener('click', () => deleteItem(item))
 }
 
 function deleteItem(item){
-    selectedProject.items = selectedProject.items.filter(i => {
-        return i !== item
-    })
-    loadItems()
+    const index = selectedProject.items.findIndex(i => i === item)
+    console.log(index)
+    selectedProject.items.splice(index, 1)
+    console.log(selectedProject.items)
+    const itemNode = todoContainer.childNodes.item(index)
+    todoContainer.removeChild(itemNode)
 }
 
 function addProject(){
     const newProj = new ProjectItem()
-    projects.push(newProj)
-    initialize()
+    projects.unshift(newProj) // add this to the beginning
+    const temp = makeProjectItemView() 
+    projectContainer.insertBefore(temp.projectItemDiv, projectContainer.firstChild) // add this to the beginning
+    console.log(projects)
+    console.log(projectContainer.childNodes)
+
+    temp.projectItemDiv.addEventListener('click', (e) => { 
+        if (e.target.nodeName !== 'BUTTON'){
+            selectProject(newProj)
+        }
+    })
+    temp.deleteButton.addEventListener('click', () => deleteProject(newProj)) 
+    selectProject(newProj)
 }
 
 function deleteProject(project){
-    projects = projects.filter(p => {
-        return p !== project
-    })
-    projectContainer.removeChild(project.node)
+    const index = projects.findIndex(p => p === project)
+    projects.splice(index, 1)
+    const projectNode = projectContainer.childNodes.item(index)
+    projectContainer.removeChild(projectNode)
+    if (projectNode.classList.contains('project-item-selected')){
+        selectedProject = null
+        if (projects[0]){
+            selectProject(projects[0])
+        }
+    }
 }
 
 function clearProjects(){
@@ -86,5 +108,5 @@ function clearProjects(){
     }
 }
 
-initialize()
+loadProjects()
 
