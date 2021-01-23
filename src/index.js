@@ -1,12 +1,12 @@
 import {AddToDoItem} from './addToDoItem'
-import {todoList} from './todoList'
-import {ToDoItem} from './todoItem'
-import {ProjectItem} from './projectItem'
+import {ToDoItem, ProjectItem, todoList} from './model'
+import {makeToDoItemView, makeProjectItemView, todoListView} from './view'
+
 
 
 let selectedProject 
-const todoContainer = todoList.todoContainer
-const projectContainer = todoList.projectContainer
+const todoContainer = todoListView.todoContainer
+const projectContainer = todoListView.projectContainer
 let projects = todoList.projects
 const addItemHeaderButton = document.querySelector('#todos-add-button')
 addItemHeaderButton.addEventListener('click', addItem)
@@ -15,19 +15,25 @@ addProjectButton.addEventListener('click', addProject)
 
 function initialize() {
     projects.forEach(project => {
-            projectContainer.appendChild(project.node)
-            project.node.addEventListener('click', () => selectProject(project))
-            project.deleteButton.addEventListener('click', () => deleteProject(project))
+            const temp = makeProjectItemView()
+            projectContainer.appendChild(temp)
+            temp.addEventListener('click', () => selectProject(project))
+            // project.deleteButton.addEventListener('click', () => deleteProject(project))
     })
     selectProject(projects[0])
 }
 
 function selectProject(project){
     if (selectedProject){
-        selectedProject.node.classList.remove('project-item-selected')
+        const index = projects.findIndex(p => p === selectedProject)
+        const node = projectContainer.childNodes.item(index)
+        node.classList.remove('project-item-selected')
     }
     selectedProject = project
-    selectedProject.node.classList.add('project-item-selected')            
+    console.log("selectedproject: " + project)
+    const index = projects.findIndex(p => p === project)
+    const node = projectContainer.childNodes.item(index)
+    node.classList.add('project-item-selected')            
     loadItems()
 }
 
@@ -37,8 +43,9 @@ function loadItems(){
         todoContainer.removeChild(todoContainer.firstChild)
     }
     selectedProject.items.forEach(item => {
-        todoContainer.appendChild(item.node)
-        item.delButton.addEventListener('click', () => deleteItem(item))
+        const temp = makeToDoItemView(item)
+        todoContainer.appendChild(temp)
+        // item.delButton.addEventListener('click', () => deleteItem(item))
     })
     const add = new AddToDoItem()
     todoContainer.appendChild(add.node)
