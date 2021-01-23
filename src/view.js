@@ -3,10 +3,6 @@ function makeToDoItemView(todoItem) {
     const completedButtonDiv = document.createElement('div')
     completedButtonDiv.classList.add('completed-button-div')
     const completedButton = document.createElement('button')
-    completedButton.addEventListener('click', () => {
-        completedButton.classList.toggle('completed-button-completed')
-        todoItemDiv.classList.toggle('todo-item-completed')
-    })
     completedButton.classList.add('completed-button')
     if (todoItem.completed === true){
         completedButton.classList.add('completed-button-completed')
@@ -26,11 +22,11 @@ function makeToDoItemView(todoItem) {
     dateDiv.classList.add('date-div')
     const deleteButton = document.createElement('button')
     deleteButton.textContent = "delete"
-    const dateInput = document.createElement('input')
-    dateInput.type = 'datetime-local'
-    dateInput.classList.add('date-input')
-    dateInput.value = todoItem.date
-    dateDiv.appendChild(dateInput)
+    const date = document.createElement('input')
+    date.type = 'datetime-local'
+    date.classList.add('date-input')
+    date.value = todoItem.date
+    dateDiv.appendChild(date)
     dateDiv.appendChild(deleteButton)
 
     
@@ -57,7 +53,7 @@ function makeToDoItemView(todoItem) {
     todoItemDiv.appendChild(addNoteDiv)
     addNoteDiv.appendChild(description)
 
-    return {todoItemDiv, deleteButton}
+    return {todoItemDiv, deleteButton, title, description, date, completedButton}
 }
 
 function makeProjectItemView(){

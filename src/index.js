@@ -34,7 +34,15 @@ function loadItems(){
         const temp = makeToDoItemView(item)
         todoContainer.appendChild(temp.todoItemDiv)
         temp.deleteButton.addEventListener('click', () => deleteItem(item))
-    })
+        temp.title.addEventListener('change', () => item.title = temp.title.value)
+        temp.description.addEventListener('change', () => item.description = temp.description.value)
+        temp.date.addEventListener('change', () => item.date = temp.date.value)
+        temp.completedButton.addEventListener('click', () => {
+            item.completed = !item.completed
+            temp.completedButton.classList.toggle('completed-button-completed')
+            temp.todoItemDiv.classList.toggle('todo-item-completed')
+            })
+        })
     const add = createAddToDoItemButton()
     todoContainer.appendChild(add)
     add.addEventListener('click', addItem)    
@@ -56,7 +64,6 @@ function selectProject(project){
 
 function addItem(){
     const item = new ToDoItem()
-    console.log(item)
     selectedProject.items.push(item)
     const itemView = makeToDoItemView(item)
     todoContainer.insertBefore(itemView.todoItemDiv, todoContainer.lastChild)
@@ -65,9 +72,7 @@ function addItem(){
 
 function deleteItem(item){
     const index = selectedProject.items.findIndex(i => i === item)
-    console.log(index)
     selectedProject.items.splice(index, 1)
-    console.log(selectedProject.items)
     const itemNode = todoContainer.childNodes.item(index)
     todoContainer.removeChild(itemNode)
 }
@@ -77,8 +82,6 @@ function addProject(){
     projects.unshift(newProj) // add this to the beginning
     const temp = makeProjectItemView() 
     projectContainer.insertBefore(temp.projectItemDiv, projectContainer.firstChild) // add this to the beginning
-    console.log(projects)
-    console.log(projectContainer.childNodes)
 
     temp.projectItemDiv.addEventListener('click', (e) => { 
         if (e.target.nodeName !== 'BUTTON'){

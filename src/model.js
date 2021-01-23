@@ -14,7 +14,7 @@ class ProjectItem{
 }
 
 const todoList = (function(){
-    const projects = [new ProjectItem(),new ProjectItem()]    
+    const projects = [new ProjectItem(), new ProjectItem(), new ProjectItem()]    
     return {projects}
 })()
 
