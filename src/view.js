@@ -56,14 +56,14 @@ function makeToDoItemView(todoItem) {
     return {todoItemDiv, deleteButton, title, description, date, completedButton}
 }
 
-function makeProjectItemView(){
+function makeProjectItemView(project){
     const projectItemDiv = document.createElement('div')
     const deleteButton = document.createElement('button')
     const titleDiv = document.createElement('div')
     const titleInput = document.createElement('input')
     titleInput.classList.add('title')
     const fixedTitle = document.createElement('div')
-    fixedTitle.textContent = "asdf"
+    fixedTitle.textContent = project.title
     titleDiv.appendChild(fixedTitle)
     fixedTitle.classList.add('title')
     const editButton = document.createElement('button')
@@ -85,7 +85,25 @@ function makeProjectItemView(){
     projectItemDiv.appendChild(buttonDiv)
     projectItemDiv.appendChild(titleDiv)
 
-    return {projectItemDiv, deleteButton, editButton, doneEditingButton, buttonDiv, titleDiv, titleInput, fixedTitle}
+    function makeProjectEditable(){
+        buttonDiv.removeChild(buttonDiv.firstChild)
+        buttonDiv.appendChild(deleteButton)
+        buttonDiv.appendChild(doneEditingButton)
+        titleDiv.removeChild(titleDiv.firstChild)
+        titleDiv.appendChild(titleInput)
+        titleInput.value = fixedTitle.textContent
+    }
+    function makeProjectUneditable(){
+        buttonDiv.removeChild(buttonDiv.firstChild)
+        buttonDiv.removeChild(buttonDiv.firstChild)
+        buttonDiv.appendChild(editButton)
+        titleDiv.removeChild(titleDiv.firstChild)
+        titleDiv.appendChild(fixedTitle)
+        fixedTitle.textContent = titleInput.value
+    }
+
+    return {projectItemDiv, deleteButton, editButton, doneEditingButton,
+         makeProjectEditable, makeProjectUneditable}
 }
 
 const todoListView = (function(){

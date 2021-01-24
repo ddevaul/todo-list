@@ -9,13 +9,15 @@ class ToDoItem{
 
 class ProjectItem{
     constructor(){
+        this.title = "temp"
         this.items = [new ToDoItem(), new ToDoItem()]
     }
 }
 
 const todoList = (function(){
-    const projects = [new ProjectItem(), new ProjectItem(), new ProjectItem()]    
-    return {projects}
+    let selectedProject 
+    let projects = [new ProjectItem(), new ProjectItem()]    
+    return {projects, selectedProject}
 })()
 
 

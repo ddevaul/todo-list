@@ -1,127 +1,138 @@
 import {ToDoItem, ProjectItem, todoList} from './model'
 import {makeToDoItemView, makeProjectItemView, todoListView, createAddToDoItemButton} from './view'
 
-let selectedProject 
-const todoContainer = todoListView.todoContainer
-const projectContainer = todoListView.projectContainer
-let projects = todoList.projects
-const addItemHeaderButton = document.querySelector('#todos-add-button')
-addItemHeaderButton.addEventListener('click', addItem)
-const addProjectButton = document.querySelector('#projects-add-button')
-addProjectButton.addEventListener('click', addProject)
+function initialize(){
+    const addItemHeaderButton = document.querySelector('#todos-add-button')
+    const addProjectButton = document.querySelector('#projects-add-button')
+    addItemHeaderButton.addEventListener('click', addItem)
+    addProjectButton.addEventListener('click', addProject) 
+    if (localStorage['projects']){
+        todoList.projects = JSON.parse(localStorage.getItem('projects'))
+    }
+    console.log(localStorage.getItem('projects'))
+    loadProjects()
+}
 
 function loadProjects() {
-    projects.forEach(project => {
-            const temp = makeProjectItemView()
-            projectContainer.appendChild(temp.projectItemDiv)
-            temp.editButton.addEventListener('click', () => makeProjectEditable(temp))
-            temp.projectItemDiv.addEventListener('click', (e) => {
-                if (e.target.nodeName !== 'BUTTON'){
-                    selectProject(project)
-                }
-            })
-            temp.deleteButton.addEventListener('click', () => deleteProject(project))
-            temp.doneEditingButton.addEventListener('click', () => makeProjectUneditable(temp))
+    todoList.projects.forEach(project => {
+        const temp = makeProjectItemView(project)
+        todoListView.projectContainer.appendChild(temp.projectItemDiv)
+        addProjectEventListeners(project, temp)
     })
-    selectProject(projects[0])
+    selectProject(todoList.projects[0])
+}
+
+function addProjectEventListeners(project, projectView){
+    projectView.editButton.addEventListener('click', () => projectView.makeProjectEditable())
+    projectView.projectItemDiv.addEventListener('click', (e) => {
+        if (e.target.nodeName !== 'BUTTON'){
+            selectProject(project)
+        }
+    })
+    projectView.deleteButton.addEventListener('click', () => deleteProject(project))
+    projectView.doneEditingButton.addEventListener('click', () => {
+        projectView.makeProjectUneditable()
+        saveToLocalStorage()
+    })
+    
+}
+
+function saveToLocalStorage(){
+    localStorage.setItem('projects', JSON.stringify(todoList.projects))
 }
 
 function loadItems(){
-    while (todoContainer.hasChildNodes()){
-        todoContainer.removeChild(todoContainer.firstChild)
+    while (todoListView.todoContainer.hasChildNodes()){
+        todoListView.todoContainer.removeChild(todoListView.todoContainer.firstChild)
     }
-    selectedProject.items.forEach(item => {
+    todoList.selectedProject.items.forEach(item => {
         const temp = makeToDoItemView(item)
-        todoContainer.appendChild(temp.todoItemDiv)
-        temp.deleteButton.addEventListener('click', () => deleteItem(item))
-        temp.title.addEventListener('change', () => item.title = temp.title.value)
-        temp.description.addEventListener('change', () => item.description = temp.description.value)
-        temp.date.addEventListener('change', () => item.date = temp.date.value)
-        temp.completedButton.addEventListener('click', () => {
-            item.completed = !item.completed
-            temp.completedButton.classList.toggle('completed-button-completed')
-            temp.todoItemDiv.classList.toggle('todo-item-completed')
-            })
+        todoListView.todoContainer.appendChild(temp.todoItemDiv)
+        addToDoItemEventHandlers(item, temp)
         })
     const add = createAddToDoItemButton()
-    todoContainer.appendChild(add)
+    todoListView.todoContainer.appendChild(add)
     add.addEventListener('click', addItem)    
 }
 
+function addToDoItemEventHandlers(item, itemView){
+    itemView.deleteButton.addEventListener('click', () => {
+        deleteItem(item)
+        saveToLocalStorage()
+    })
+    
+    itemView.title.addEventListener('change', () => {
+        item.title = itemView.title.value
+        saveToLocalStorage()
+    })
+
+    itemView.description.addEventListener('change', () => {
+        item.description = itemView.description.value
+        saveToLocalStorage()
+    })
+
+    itemView.date.addEventListener('change', () => {
+        item.date = itemView.date.value
+        saveToLocalStorage()
+    })
+
+    itemView.completedButton.addEventListener('click', () => {
+        item.completed = !item.completed
+        itemView.completedButton.classList.toggle('completed-button-completed')
+        itemView.todoItemDiv.classList.toggle('todo-item-completed')
+        saveToLocalStorage()
+        })
+}
+
 function selectProject(project){
-    if (selectedProject){
-        const index = projects.findIndex(p => p === selectedProject)
-        const node = projectContainer.childNodes.item(index)
+    if (todoList.selectedProject){
+        const index = todoList.projects.findIndex(p => p === todoList.selectedProject)
+        const node = todoListView.projectContainer.childNodes.item(index)
         node.classList.remove('project-item-selected')
     }
-    selectedProject = project
-    const index = projects.findIndex(p => p === project)
-    const node = projectContainer.childNodes.item(index)
+    todoList.selectedProject = project
+    const index = todoList.projects.findIndex(p => p === project)
+    const node = todoListView.projectContainer.childNodes.item(index)
     node.classList.add('project-item-selected')            
     loadItems()
 }
 
 function addItem(){
     const item = new ToDoItem()
-    selectedProject.items.push(item)
+    todoList.selectedProject.items.push(item)
     const itemView = makeToDoItemView(item)
-    todoContainer.insertBefore(itemView.todoItemDiv, todoContainer.lastChild)
-    itemView.deleteButton.addEventListener('click', () => deleteItem(item))
+    todoListView.todoContainer.insertBefore(itemView.todoItemDiv, todoListView.todoContainer.lastChild)
+    addToDoItemEventHandlers(item, itemView)
 }
 
 function deleteItem(item){
-    const index = selectedProject.items.findIndex(i => i === item)
-    selectedProject.items.splice(index, 1)
-    const itemNode = todoContainer.childNodes.item(index)
-    todoContainer.removeChild(itemNode)
+    const index = todoList.selectedProject.items.findIndex(i => i === item)
+    todoList.selectedProject.items.splice(index, 1)
+    const itemNode = todoListView.todoContainer.childNodes.item(index)
+    todoListView.todoContainer.removeChild(itemNode)
 }
 
 function addProject(){
     const newProj = new ProjectItem()
-    projects.unshift(newProj) // add this to the beginning
-    const temp = makeProjectItemView() 
-    projectContainer.insertBefore(temp.projectItemDiv, projectContainer.firstChild) // add this to the beginning
-
-    temp.projectItemDiv.addEventListener('click', (e) => { 
-        if (e.target.nodeName !== 'BUTTON'){
-            selectProject(newProj)
-        }
-    })
-    temp.deleteButton.addEventListener('click', () => deleteProject(newProj)) 
+    todoList.projects.unshift(newProj)
+    const temp = makeProjectItemView(newProj) 
+    todoListView.projectContainer.insertBefore(temp.projectItemDiv, todoListView.projectContainer.firstChild) // add this to the beginning
+    addProjectEventListeners(newProj, temp)
     selectProject(newProj)
 }
 
 function deleteProject(project){
-    const index = projects.findIndex(p => p === project)
-    projects.splice(index, 1)
-    const projectNode = projectContainer.childNodes.item(index)
-    projectContainer.removeChild(projectNode)
+    const index = todoList.projects.findIndex(p => p === project)
+    todoList.projects.splice(index, 1)
+    const projectNode = todoListView.projectContainer.childNodes.item(index)
+    todoListView.projectContainer.removeChild(projectNode)
     if (projectNode.classList.contains('project-item-selected')){
-        selectedProject = null
-        if (projects[0]){
-            selectProject(projects[0])
+        todoList.selectedProject = null
+        if (todoList.projects[0]){
+            selectProject(todoList.projects[0])
         }
     }
 }
 
-function makeProjectEditable(node){
-    node.buttonDiv.removeChild(node.buttonDiv.firstChild)
-    node.buttonDiv.appendChild(node.deleteButton)
-    node.buttonDiv.appendChild(node.doneEditingButton)
-    node.titleDiv.removeChild(node.titleDiv.firstChild)
-    node.titleDiv.appendChild(node.titleInput)
-    node.titleInput.value = node.fixedTitle.textContent
-
-}
-
-function makeProjectUneditable(node){
-    node.buttonDiv.removeChild(node.buttonDiv.firstChild)
-    node.buttonDiv.removeChild(node.buttonDiv.firstChild)
-    node.buttonDiv.appendChild(node.editButton)
-    node.titleDiv.removeChild(node.titleDiv.firstChild)
-    node.titleDiv.appendChild(node.fixedTitle)
-    node.fixedTitle.textContent = node.titleInput.value
-}
-
-loadProjects()
+initialize()
 
