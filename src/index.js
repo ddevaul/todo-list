@@ -1,8 +1,6 @@
 import {ToDoItem, ProjectItem, todoList} from './model'
 import {makeToDoItemView, makeProjectItemView, todoListView, createAddToDoItemButton} from './view'
 
-
-
 let selectedProject 
 const todoContainer = todoListView.todoContainer
 const projectContainer = todoListView.projectContainer
@@ -16,12 +14,14 @@ function loadProjects() {
     projects.forEach(project => {
             const temp = makeProjectItemView()
             projectContainer.appendChild(temp.projectItemDiv)
+            temp.editButton.addEventListener('click', () => makeProjectEditable(temp))
             temp.projectItemDiv.addEventListener('click', (e) => {
                 if (e.target.nodeName !== 'BUTTON'){
                     selectProject(project)
                 }
             })
             temp.deleteButton.addEventListener('click', () => deleteProject(project))
+            temp.doneEditingButton.addEventListener('click', () => makeProjectUneditable(temp))
     })
     selectProject(projects[0])
 }
@@ -60,7 +60,6 @@ function selectProject(project){
     node.classList.add('project-item-selected')            
     loadItems()
 }
-
 
 function addItem(){
     const item = new ToDoItem()
@@ -105,10 +104,23 @@ function deleteProject(project){
     }
 }
 
-function clearProjects(){
-    while (projectContainer.hasChildNodes){
+function makeProjectEditable(node){
+    node.buttonDiv.removeChild(node.buttonDiv.firstChild)
+    node.buttonDiv.appendChild(node.deleteButton)
+    node.buttonDiv.appendChild(node.doneEditingButton)
+    node.titleDiv.removeChild(node.titleDiv.firstChild)
+    node.titleDiv.appendChild(node.titleInput)
+    node.titleInput.value = node.fixedTitle.textContent
 
-    }
+}
+
+function makeProjectUneditable(node){
+    node.buttonDiv.removeChild(node.buttonDiv.firstChild)
+    node.buttonDiv.removeChild(node.buttonDiv.firstChild)
+    node.buttonDiv.appendChild(node.editButton)
+    node.titleDiv.removeChild(node.titleDiv.firstChild)
+    node.titleDiv.appendChild(node.fixedTitle)
+    node.fixedTitle.textContent = node.titleInput.value
 }
 
 loadProjects()

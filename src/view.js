@@ -60,6 +60,12 @@ function makeProjectItemView(){
     const projectItemDiv = document.createElement('div')
     const deleteButton = document.createElement('button')
     const titleDiv = document.createElement('div')
+    const titleInput = document.createElement('input')
+    titleInput.classList.add('title')
+    const fixedTitle = document.createElement('div')
+    fixedTitle.textContent = "asdf"
+    titleDiv.appendChild(fixedTitle)
+    fixedTitle.classList.add('title')
     const editButton = document.createElement('button')
     editButton.classList.add('material-icons')
     editButton.textContent = "edit"
@@ -67,14 +73,19 @@ function makeProjectItemView(){
     deleteButton.textContent = "delete"
 
     projectItemDiv.classList.add('project-item')
-    titleDiv.classList.add('title')
-    deleteButton.classList.add('delete-button')
-    editButton.classList.add('edit-button')
-    projectItemDiv.appendChild(deleteButton)
-    projectItemDiv.appendChild(editButton)
+    titleDiv.classList.add('title-div')
+    
+    const buttonDiv = document.createElement('div')
+    buttonDiv.classList.add('button-div')
+    const doneEditingButton = document.createElement('button')
+    doneEditingButton.classList.add('material-icons')
+    doneEditingButton.textContent = "check_circle"
+    buttonDiv.appendChild(editButton)
+
+    projectItemDiv.appendChild(buttonDiv)
     projectItemDiv.appendChild(titleDiv)
 
-    return {projectItemDiv, deleteButton}
+    return {projectItemDiv, deleteButton, editButton, doneEditingButton, buttonDiv, titleDiv, titleInput, fixedTitle}
 }
 
 const todoListView = (function(){
