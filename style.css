@@ -49,7 +49,8 @@ body{
     grid-template-columns: 30rem auto;
 }
 
-.projects-container, .todos-container{
+.projects-container, 
+.todos-container{
     min-height: calc(100vh - 9rem);
     height: 100%;
     width: 100%;
@@ -89,12 +90,6 @@ body{
     margin-right: 0.5rem;
 }
 
-.todo-item-outer{
-    display: flex;
-    flex-direction: column;
-
-}
-
 .project-item {
     width: 100%;
     display: flex;
@@ -111,13 +106,37 @@ body{
 }
 
 
-.project-item .title{
+.project-item .title-div{
+    display: flex;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
     width: 100%;
+    font-size: 1.5rem;
     background-color: white;
 }
 
-.project-item .edit-button,
-.project-item .delete-button{
+.project-item .title{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 1.5rem;
+}
+.project-item div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.project-item .button-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.project-item button{
     height: 2rem;
     width: 3rem;
     margin: .5rem;
