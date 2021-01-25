@@ -168,7 +168,7 @@ input {
 .todo-item .completed-button {
     height: 2rem;
     width: 2rem;
-    border-radius: 50%;
+    border-radius: 5%;
     background-color: white;
     display: flex;
     justify-content: center;
@@ -261,8 +261,14 @@ input {
     align-items: center;
     padding: auto;
 }
-.priorityDiv .selected{
-    background-color: orange;
+.priority1{
+    background-color: rgb(7, 218, 7);
+}
+.priority2{
+    background-color: rgb(255, 255, 23);
+}
+.priority3{
+    background-color: rgb(255, 53, 53);
 }
 
 .todo-item .description-hidden{
