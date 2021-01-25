@@ -19,6 +19,7 @@ function makeToDoItemView(todoItem) {
     const dateDiv = document.createElement('div')
     dateDiv.classList.add('date-div')
     const deleteButton = document.createElement('button')
+    deleteButton.classList.add('material-icons')
     deleteButton.textContent = "delete"
     const date = document.createElement('input')
     date.type = 'datetime-local'
@@ -32,13 +33,19 @@ function makeToDoItemView(todoItem) {
     addNoteDiv.classList.add('addnote-button-div')
     const addNote = document.createElement('button')
     addNote.classList.add('addnote-button')
+    addNote.classList.add('material-icons')
+    addNote.textContent = "arrow_drop_down"
     addNote.addEventListener('click', () => {
         description.classList.toggle('description-hidden')
         description.classList.toggle('description-visible')
+        if (addNote.textContent === "arrow_drop_down"){
+            addNote.textContent = "arrow_drop_up"
+        } else {
+            addNote.textContent = "arrow_drop_down"
+        }
 
     })
     addNoteDiv.appendChild(addNote)
-    addNote.textContent = "Add Description"
     const priorityDiv = document.createElement('div')
     const priority1 = document.createElement('button')
     const priority2 = document.createElement('button')
@@ -78,19 +85,21 @@ function makeToDoItemView(todoItem) {
 
     function selectPriority(priority){
         if (priority === priority1){
-            priority2.classList.remove('selected')
-            priority3.classList.remove('selected')
+            priority1.classList.toggle('priority1')
+            priority2.classList.remove('priority2')
+            priority3.classList.remove('priority3')
         }
         else if (priority === priority2){
-            priority1.classList.remove('selected')
-            priority3.classList.remove('selected')
+            priority1.classList.remove('priority1')
+            priority2.classList.toggle('priority2')
+            priority3.classList.remove('priority3')
 
         }
         else {
-            priority1.classList.remove('selected')
-            priority2.classList.remove('selected')
+            priority1.classList.remove('priority1')
+            priority2.classList.remove('priority2')
+            priority3.classList.toggle('priority3')
         }
-        priority.classList.toggle('selected')
     }
 
     function toggleCompletedStyling(){
