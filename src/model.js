@@ -1,22 +1,22 @@
 class ToDoItem{
     constructor(){
-        this.title = "test"
-        this.date = "2021-01-14T12:04"
+        this.title = ""
+        this.date = ""
         this.completed = false
-        this.description = "asdfasdfasdfasdfasdf"
+        this.description = ""
     }
 }
 
 class ProjectItem{
     constructor(){
-        this.title = "temp"
-        this.items = [new ToDoItem(), new ToDoItem()]
+        this.title = "Click to Edit New Project"
+        this.items = []
     }
 }
 
 const todoList = (function(){
-    let selectedProject 
-    let projects = [new ProjectItem(), new ProjectItem()]    
+    let selectedProject
+    let projects = []    
     return {projects, selectedProject}
 })()
 

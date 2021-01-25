@@ -102,8 +102,8 @@ function makeProjectItemView(project){
         fixedTitle.textContent = titleInput.value
     }
 
-    return {projectItemDiv, deleteButton, editButton, doneEditingButton,
-         makeProjectEditable, makeProjectUneditable}
+    return {projectItemDiv, deleteButton, editButton, doneEditingButton, 
+        fixedTitle, makeProjectEditable, makeProjectUneditable}
 }
 
 const todoListView = (function(){

@@ -2,15 +2,18 @@ import {ToDoItem, ProjectItem, todoList} from './model'
 import {makeToDoItemView, makeProjectItemView, todoListView, createAddToDoItemButton} from './view'
 
 function initialize(){
+    localStorage.clear()
     const addItemHeaderButton = document.querySelector('#todos-add-button')
     const addProjectButton = document.querySelector('#projects-add-button')
     addItemHeaderButton.addEventListener('click', addItem)
     addProjectButton.addEventListener('click', addProject) 
-    if (localStorage['projects']){
+    if (!localStorage.getItem('projects')){
+        addProject()
+        addItem()
+    } else {
         todoList.projects = JSON.parse(localStorage.getItem('projects'))
+        loadProjects()
     }
-    console.log(localStorage.getItem('projects'))
-    loadProjects()
 }
 
 function loadProjects() {
@@ -19,7 +22,11 @@ function loadProjects() {
         todoListView.projectContainer.appendChild(temp.projectItemDiv)
         addProjectEventListeners(project, temp)
     })
-    selectProject(todoList.projects[0])
+    if (todoList.selectedProject){
+        selectProject(todoList.selectedProject)
+    } else {
+        selectProject(todoList.projects[0])
+    }
 }
 
 function addProjectEventListeners(project, projectView){
@@ -32,9 +39,9 @@ function addProjectEventListeners(project, projectView){
     projectView.deleteButton.addEventListener('click', () => deleteProject(project))
     projectView.doneEditingButton.addEventListener('click', () => {
         projectView.makeProjectUneditable()
+        project.title = projectView.fixedTitle.textContent
         saveToLocalStorage()
-    })
-    
+    })  
 }
 
 function saveToLocalStorage(){
@@ -45,6 +52,7 @@ function loadItems(){
     while (todoListView.todoContainer.hasChildNodes()){
         todoListView.todoContainer.removeChild(todoListView.todoContainer.firstChild)
     }
+    todoList.selectedProject.items = todoList.selectedProject.items.sort((a, b) => a.completed - b.completed)
     todoList.selectedProject.items.forEach(item => {
         const temp = makeToDoItemView(item)
         todoListView.todoContainer.appendChild(temp.todoItemDiv)
@@ -116,6 +124,7 @@ function addProject(){
     const newProj = new ProjectItem()
     todoList.projects.unshift(newProj)
     const temp = makeProjectItemView(newProj) 
+    temp.makeProjectEditable()
     todoListView.projectContainer.insertBefore(temp.projectItemDiv, todoListView.projectContainer.firstChild) // add this to the beginning
     addProjectEventListeners(newProj, temp)
     selectProject(newProj)
