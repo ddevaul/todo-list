@@ -165,8 +165,27 @@ input {
     border-bottom: 2px solid rgb(110, 110, 110);
 }
 
-.todo-item-completed{
-    background-color: rgb(129, 129, 129);
+.todo-item .completed-button {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0;
+}
+
+.todo-item .completed-button:hover {
+    font-size: 1.5rem;
+    color: rgb(206, 206, 206);
+}
+
+.completed,
+.todo-item .completed-button-completed{
+    transform: scale(0.97);
+    background-color: rgb(181, 181, 181);
+    font-size: 1.5rem;
 }
 
 .todo-item .task-title-div{
@@ -189,18 +208,7 @@ input {
     justify-content: center;
     align-items: center;
     grid-area: check;
-    border-right: 2px solid rgb(0, 0, 0);
-}
-
-.todo-item .completed-button {
-    height: 2rem;
-    width: 2rem;
-    border-radius: 50%;
-    background-color: white;
-}
-
-.todo-item .completed-button-completed {
-    background-color: rgb(129, 129, 129);
+    border-right: 1px solid rgb(176, 176, 176);
 }
 
 .todo-item .date-div {
@@ -209,9 +217,9 @@ input {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border-left: 2px solid black;
-    padding-left: .25rem;
-    padding-right: .25rem;
+    border-left: 1px solid rgb(176, 176, 176);
+    padding-left: .5rem;
+    padding-right: .5rem;
 }
 
 .todo-item .date-div button{
@@ -222,16 +230,39 @@ input {
     width: 100%;
 }
 .todo-item .addnote-button-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    display: grid;
+    grid-template-areas: 
+    "addDescription prioriyDiv"
+    "description description";
+    grid-template-columns: 1fr 1fr;
     grid-area: addNote;
-    padding-bottom: .5rem;
+    align-items: center;
+    padding: .5rem;
+    width: 25rem;
+    margin: auto;
 }
 
 .todo-item .addnote-button{
-    margin: .5rem;
+    margin: auto;
+    max-width: 5rem;
+}
+
+.priorityDiv{
+    margin: auto;
+    display: flex;
+}
+
+.priorityDiv button{
+    display: flex;
+    height: 2rem;
+    width: 2rem;
+    font-size: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    padding: auto;
+}
+.priorityDiv .selected{
+    background-color: orange;
 }
 
 .todo-item .description-hidden{
@@ -239,10 +270,14 @@ input {
 }
 
 .todo-item .description-visible{
+    margin: 1rem auto;
+
     display: block;
+    font-size: 1rem;
     background-color: white;
     height: 4rem;
     width: 90%;
+    grid-area: description;
 }
 .add-todo-item-container{
     display:flex;
@@ -251,6 +286,7 @@ input {
 }
 
 .add-todo-item-button{
+    border-radius: 0;
     height: 3rem;
-    width: 10rem;
+    width: 100%;
 }
