@@ -51,6 +51,7 @@ function loadItems(){
     while (todoListView.todoContainer.hasChildNodes()){
         todoListView.todoContainer.removeChild(todoListView.todoContainer.firstChild)
     }
+    todoList.selectedProject.items = todoList.selectedProject.items.sort((a, b) => b.priority - a.priority)
     todoList.selectedProject.items = todoList.selectedProject.items.sort((a, b) => a.completed - b.completed)
     todoList.selectedProject.items.forEach(item => {
         const temp = makeToDoItemView(item)
@@ -85,10 +86,26 @@ function addToDoItemEventHandlers(item, itemView){
 
     itemView.completedButton.addEventListener('click', () => {
         item.completed = !item.completed
-        itemView.completedButton.classList.toggle('completed-button-completed')
-        itemView.todoItemDiv.classList.toggle('todo-item-completed')
+        itemView.toggleCompletedStyling()
         saveToLocalStorage()
         })
+    itemView.priority1.addEventListener('click', () => {
+        itemView.selectPriority(itemView.priority1)
+        item.priority = 1
+        saveToLocalStorage()
+
+    })
+    itemView.priority2.addEventListener('click', () => {
+        itemView.selectPriority(itemView.priority2)
+        item.priority = 2
+        saveToLocalStorage()
+
+    })
+    itemView.priority3.addEventListener('click', () => {
+        itemView.selectPriority(itemView.priority3)
+        item.priority = 3
+        saveToLocalStorage()
+    })
 }
 
 function selectProject(project){

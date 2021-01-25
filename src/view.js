@@ -4,12 +4,10 @@ function makeToDoItemView(todoItem) {
     completedButtonDiv.classList.add('completed-button-div')
     const completedButton = document.createElement('button')
     completedButton.classList.add('completed-button')
-    if (todoItem.completed === true){
-        completedButton.classList.add('completed-button-completed')
-        todoItemDiv.classList.add('todo-item-completed')
-
-    }
+    
     completedButtonDiv.appendChild(completedButton)
+    completedButton.classList.toggle('material-icons')
+    completedButton.textContent = "check"
     const titleDiv = document.createElement('div')
     titleDiv.classList.add('task-title-div')
     const title = document.createElement('input')
@@ -41,10 +39,31 @@ function makeToDoItemView(todoItem) {
     })
     addNoteDiv.appendChild(addNote)
     addNote.textContent = "Add Description"
-
+    const priorityDiv = document.createElement('div')
+    const priority1 = document.createElement('button')
+    const priority2 = document.createElement('button')
+    const priority3 = document.createElement('button')
+    priority1.textContent = "!"
+    priority2.textContent = "!!"
+    priority3.textContent = "!!!"
+    priorityDiv.classList.add('priorityDiv')
+    priorityDiv.appendChild(priority1)
+    priorityDiv.appendChild(priority2)
+    priorityDiv.appendChild(priority3)
+    addNoteDiv.appendChild(priorityDiv)
+    if (todoItem.priority === 1){
+        selectPriority(priority1)
+    }
+    else if (todoItem.priority === 2){
+        selectPriority(priority2)
+    }
+    else if (todoItem.priority === 3){
+        selectPriority(priority3)
+    }
     const description = document.createElement('textarea')
     description.classList.add('description-hidden')
     description.value = todoItem.description
+
 
     todoItemDiv.classList.add('todo-item')
     todoItemDiv.appendChild(completedButtonDiv)
@@ -53,7 +72,37 @@ function makeToDoItemView(todoItem) {
     todoItemDiv.appendChild(addNoteDiv)
     addNoteDiv.appendChild(description)
 
-    return {todoItemDiv, deleteButton, title, description, date, completedButton}
+    if (todoItem.completed === true){
+        toggleCompletedStyling()
+    }
+
+    function selectPriority(priority){
+        if (priority === priority1){
+            priority2.classList.remove('selected')
+            priority3.classList.remove('selected')
+        }
+        else if (priority === priority2){
+            priority1.classList.remove('selected')
+            priority3.classList.remove('selected')
+
+        }
+        else {
+            priority1.classList.remove('selected')
+            priority2.classList.remove('selected')
+        }
+        priority.classList.toggle('selected')
+    }
+
+    function toggleCompletedStyling(){
+        completedButton.classList.toggle('completed-button-completed')
+        todoItemDiv.classList.toggle('completed')
+        title.classList.toggle('completed')
+        date.classList.toggle('completed')
+
+    }
+    return {todoItemDiv, deleteButton, title, description, date, 
+        completedButton, toggleCompletedStyling, priority1, priority2, priority3,
+        selectPriority}
 }
 
 function makeProjectItemView(project){

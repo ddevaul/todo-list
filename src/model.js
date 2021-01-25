@@ -4,6 +4,7 @@ class ToDoItem{
         this.date = ""
         this.completed = false
         this.description = ""
+        this.priority = ""
     }
 }
 
