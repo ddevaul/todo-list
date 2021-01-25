@@ -1,4 +1,6 @@
 *, *:after *:before{
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -14,6 +16,15 @@ body{
     overflow: hidden;
     height: fit-content;
     margin: 0;
+}
+button{
+    background-color: rgb(232, 232, 232);
+    border-radius: 5%;
+}
+
+input {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
 }
 
 .header{
