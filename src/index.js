@@ -2,7 +2,6 @@ import {ToDoItem, ProjectItem, todoList} from './model'
 import {makeToDoItemView, makeProjectItemView, todoListView, createAddToDoItemButton} from './view'
 
 function initialize(){
-    localStorage.clear()
     const addItemHeaderButton = document.querySelector('#todos-add-button')
     const addProjectButton = document.querySelector('#projects-add-button')
     addItemHeaderButton.addEventListener('click', addItem)
