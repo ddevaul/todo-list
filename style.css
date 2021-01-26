@@ -17,6 +17,7 @@ body{
     height: fit-content;
     margin: 0;
 }
+
 button{
     background-color: rgb(232, 232, 232);
     border-radius: 5%;
@@ -39,7 +40,8 @@ input {
     border-bottom: 2px solid black;
 }
 
-.logo, .title{
+.logo, 
+.title{
     font-size: 3rem;
     margin-left: 1rem;
     margin-right: 1rem;
@@ -53,6 +55,7 @@ input {
     background-size: 5rem;
     background-repeat: no-repeat;
 }
+
 .two-columns{
     height: calc(100vh - 6rem);
     margin-top: 6rem;
@@ -88,7 +91,7 @@ input {
     border-right: 2px solid black;
 }
 
-.two-columns .sub-title{
+.sub-title{
     width: 4rem;
     margin-left: calc(50% - 4rem);
 }
@@ -116,8 +119,7 @@ input {
     background-color:rgb(173, 222, 255);
 }
 
-
-.project-item .title-div{
+.project-title-div{
     display: flex;
     margin-right: 0.5rem;
     height: 2.5rem;
@@ -127,13 +129,14 @@ input {
     background-color: white;
 }
 
-.project-item .title{
+.project-title-input{
     padding: 0;
     margin: 0;
     height: 100%;
     width: 100%;
     font-size: 1.5rem;
 }
+
 .project-item div{
     display: flex;
     flex-direction: row;
@@ -165,7 +168,7 @@ input {
     border-bottom: 2px solid rgb(110, 110, 110);
 }
 
-.todo-item .completed-button {
+.completed-button {
     height: 2rem;
     width: 2rem;
     border-radius: 5%;
@@ -176,19 +179,19 @@ input {
     font-size: 0;
 }
 
-.todo-item .completed-button:hover {
+.completed-button:hover {
     font-size: 1.5rem;
     color: rgb(206, 206, 206);
 }
 
 .completed,
-.todo-item .completed-button-completed{
+.completed-button-completed{
     transform: scale(0.97);
     background-color: rgb(181, 181, 181);
     font-size: 1.5rem;
 }
 
-.todo-item .task-title-div{
+.task-title-div{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -197,13 +200,13 @@ input {
     padding-top: .5rem;
 }
 
-.todo-item .task-title{
+.task-title{
     width: 90%;
     font-size: 1.5rem;
     height: 2rem;
 }
 
-.todo-item .completed-button-div {
+.completed-button-div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -211,7 +214,7 @@ input {
     border-right: 1px solid rgb(176, 176, 176);
 }
 
-.todo-item .date-div {
+.date-div {
     grid-area: date;
     display: flex;
     justify-content: center;
@@ -222,17 +225,18 @@ input {
     padding-right: .5rem;
 }
 
-.todo-item .date-div button{
+.date-div button{
     margin: .5rem;
 }
 
-.todo-item .date-input{
+.date-input{
     width: 100%;
 }
-.todo-item .addnote-button-div {
+
+.addnote-button-div {
     display: grid;
     grid-template-areas: 
-    "addDescription prioriyDiv"
+    "addDescription priorityDiv"
     "description description";
     grid-template-columns: 1fr 1fr;
     grid-area: addNote;
@@ -242,7 +246,7 @@ input {
     margin: auto;
 }
 
-.todo-item .addnote-button{
+.addnote-button{
     margin: auto;
     max-width: 5rem;
 }
@@ -261,23 +265,25 @@ input {
     align-items: center;
     padding: auto;
 }
+
 .priority1{
     background-color: rgb(7, 218, 7);
 }
+
 .priority2{
     background-color: rgb(255, 255, 23);
 }
+
 .priority3{
     background-color: rgb(255, 53, 53);
 }
 
-.todo-item .description-hidden{
+.description-hidden{
     display: none;
 }
 
-.todo-item .description-visible{
+.description-visible{
     margin: 1rem auto;
-
     display: block;
     font-size: 1rem;
     background-color: white;
@@ -285,6 +291,7 @@ input {
     width: 90%;
     grid-area: description;
 }
+
 .add-todo-item-container{
     display:flex;
     margin: .5rem;
