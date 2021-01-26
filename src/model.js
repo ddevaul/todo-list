@@ -15,11 +15,11 @@ class ProjectItem{
     }
 }
 
+// IIFE because there's only one
 const todoList = (function(){
     let selectedProject
     let projects = []    
     return {projects, selectedProject}
 })()
-
 
 export {ToDoItem, ProjectItem, todoList}
