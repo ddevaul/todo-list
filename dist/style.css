@@ -168,7 +168,7 @@ input {
     border-bottom: 2px solid rgb(110, 110, 110);
 }
 
-.completed-button {
+.todo-item .completed-button {
     height: 2rem;
     width: 2rem;
     border-radius: 5%;
@@ -176,20 +176,32 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0;
+    text-align: center;
+    font-size: 0px;
 }
 
-.completed-button:hover {
+
+.todo-item .completed-button:hover {
     font-size: 1.5rem;
     color: rgb(206, 206, 206);
 }
 
+.completed-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-area: check;
+    border-right: 1px solid rgb(176, 176, 176);
+}
+
 .completed,
-.completed-button-completed{
+.todo-item .completed-button-completed{
     transform: scale(0.97);
-    background-color: rgb(181, 181, 181);
+    background-color: rgb(110, 110, 110);;
     font-size: 1.5rem;
 }
+
+
 
 .task-title-div{
     display: flex;
@@ -204,14 +216,6 @@ input {
     width: 90%;
     font-size: 1.5rem;
     height: 2rem;
-}
-
-.completed-button-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    grid-area: check;
-    border-right: 1px solid rgb(176, 176, 176);
 }
 
 .date-div {

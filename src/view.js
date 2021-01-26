@@ -37,8 +37,8 @@ function makeToDoItemView(todoItem) {
     // adding styling to all the elements
     todoItemDiv.classList.add('todo-item')
     completedButtonDiv.classList.add('completed-button-div')
-    completedButton.classList.add('completed-button')
-    completedButton.classList.toggle('material-icons')    
+    completedButton.classList.add('material-icons')    
+    completedButton.classList.add('completed-button')     
     titleDiv.classList.add('task-title-div')
     titleDiv.classList.add('task-title-div')
     title.classList.add('task-title')
