@@ -1,6 +1,8 @@
 import {ToDoItem, ProjectItem, todoList} from './model'
 import {makeToDoItemView, makeProjectItemView, todoListView, createAddToDoItemButton} from './view'
 const db = firebase.firestore()
+localStorage.clear()
+console.log("local storage clear")
 initialize()
 initFirebaseAuth()
 // load projects from local storage. if there aren't any stored, create a 
@@ -19,32 +21,16 @@ function initialize(){
     // if (!!localStorage.getItem('projects')){
     //     todoList.projects = JSON.parse(localStorage.getItem('projects'))
     //     loadProjects()} 
-    if (true){
-        const docRef = db.collection('projects').doc('projects');
-        docRef.get().then((doc) => {
-            if (doc.data()) {
-                console.log(doc.data())
-                todoList.projects = doc.data().text
-                loadProjects();
-
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-            }
-        })
-        
-    }
-    else {
-
-        addProject()
-        addItem()
-    } 
+    
 }
 
 // create an html element for each project and append it to the projectContainer
 // add event listeners to the project div
 // then select the first project which then highlights it and loads its items
 function loadProjects() {
+    while (todoListView.projectContainer.childNodes.length > 0) { 
+        todoListView.projectContainer.removeChild(todoListView.projectContainer.childNodes[0])
+    }
     todoList.projects.forEach(project => {
         const temp = makeProjectItemView(project)
         todoListView.projectContainer.appendChild(temp.projectItemDiv)
@@ -146,7 +132,6 @@ function addToDoItemEventHandlers(item, itemView){
         deleteItem(item)
         saveToLocalStorage()
     })
-    
     itemView.title.addEventListener('change', () => {
         item.title = itemView.title.value
         saveToLocalStorage()
@@ -218,7 +203,6 @@ function toggleButtons(hide, show){
     show.classList.add('button-show');
 }
 
-
 // sign user in
 function signIn() {
     // Sign into Firebase using popup auth & Google as the identity provider.
@@ -231,7 +215,6 @@ function signOut() {
     // Sign out of Firebase.
     firebase.auth().signOut()
   } 
-
   
   // Returns the signed-in user's profile pic URL.
   function getProfilePicUrl() {
@@ -274,24 +257,46 @@ function addSizeToGoogleProfilePic(url) {
       userNameElement.removeAttribute('hidden');
       userInfoElement.removeAttribute('hidden');
       userPicElement.classList.remove('user-info-hidden');
-      
+      const docRef = db.collection('projects').doc('projects');
+      docRef.get().then((doc) => {
+        if (doc.data()) {
+            console.log("data")
+            console.log(doc.data())
+            todoList.projects = doc.data().text
+            console.log(todoList.projects)
+            todoList.selectedProject = null
+            loadProjects()
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    })
         toggleButtons(signInButton, signOutButton)
     } else { // User is signed out!
         toggleButtons(signOutButton, signInButton)
+        console.log("todo list" )
+        console.log(todoList)
+        todoList.projects = []
+        todoList.selectedProject = null
+        while(todoListView.todoContainer.childNodes.length > 1){
+            todoListView.todoContainer.removeChild(todoListView.todoContainer.childNodes[0])
+        }
+        loadProjects()
         
+
       // Hide user's profile
             userNameElement.setAttribute('hidden', 'true');
             userPicElement.setAttribute('hidden', 'true');
             userPicElement.classList.add('user-info-hidden');
-  
     }
   }
 
 
   // Saves a new message to your Cloud Firestore database.
 function saveProject() {
+    const user = firebase.auth().currentUser;
     // Add a new message entry to the database.
-    return db.collection('projects').doc("projects").set({
+    return db.collection(`'projects'`).doc('projects').set({
       name: getUserName(),
       text: JSON.parse(JSON.stringify(todoList.projects)),
     }).catch(function(error) {
