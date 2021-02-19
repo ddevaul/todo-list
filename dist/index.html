@@ -9,12 +9,19 @@
         <div class="header" id="header"> 
             <div class="logo"></div>
             <div class="title">To Do List</div>
+            <div class="sign-in-out-buttons">
+                <div class="user-info" id="user-info">
+                    <div id="user-pic"></div>
+                    <div id="username"></div>
+                </div>
+                <button class="button-show"id="sign-in">Sign In</button>
+                <button class="button-hide" id="sign-out">Sign Out</button>
+            </div>
         </div>
             <div class="two-columns" id="two-columns">
                 <div class="projects-header">
                         <div class="sub-title">Projects</div>
-                        <button class="material-icons" id="projects-add-button">
-                            add</button>
+                        <button class="material-icons" id="projects-add-button">add</button>
                 </div>
                 <div class="todo-header">
                     <div class="sub-title">Todos</div>
@@ -23,6 +30,20 @@
                 <div class="projects-container" id="projects-container"></div>
                 <div class="todos-container" id="todos-container"></div>
             </div>
+  <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="/__/firebase/8.2.7/firebase-app.js"></script>
+
+  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+  <script src="/__/firebase/8.2.7/firebase-analytics.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="/__/firebase/8.2.7/firebase-firestore.js"></script>
+  <script src="/__/firebase/8.2.7/firebase-auth.js"></script>
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
+<script src="main.js"></script>
     </body>
-    <script src="main.js"></script>
 </html>

@@ -1,22 +1,44 @@
 import {ToDoItem, ProjectItem, todoList} from './model'
 import {makeToDoItemView, makeProjectItemView, todoListView, createAddToDoItemButton} from './view'
-
+const db = firebase.firestore()
 initialize()
-
+initFirebaseAuth()
 // load projects from local storage. if there aren't any stored, create a 
 // new project and add an item to it
 function initialize(){
     const addItemHeaderButton = document.querySelector('#todos-add-button')
+    const signInButton = document.querySelector('#sign-in')
+    const signOutButton = document.querySelector('#sign-out')
+    signInButton.addEventListener('click', () => signIn())
+    signOutButton.addEventListener('click', () => signOut())
     const addProjectButton = document.querySelector('#projects-add-button')
     addItemHeaderButton.addEventListener('click', addItem)
     addProjectButton.addEventListener('click', addProject) 
-    if (!localStorage.getItem('projects')){
+
+    
+    // if (!!localStorage.getItem('projects')){
+    //     todoList.projects = JSON.parse(localStorage.getItem('projects'))
+    //     loadProjects()} 
+    if (true){
+        const docRef = db.collection('projects').doc('projects');
+        docRef.get().then((doc) => {
+            if (doc.data()) {
+                console.log(doc.data())
+                todoList.projects = doc.data().text
+                loadProjects();
+
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        })
+        
+    }
+    else {
+
         addProject()
         addItem()
-    } else {
-        todoList.projects = JSON.parse(localStorage.getItem('projects'))
-        loadProjects()
-    }
+    } 
 }
 
 // create an html element for each project and append it to the projectContainer
@@ -186,6 +208,99 @@ function deleteItem(item){
 // save all the projects in local storage as a string
 function saveToLocalStorage(){
     localStorage.setItem('projects', JSON.stringify(todoList.projects))
+    saveProject()
+}
+
+function toggleButtons(hide, show){
+    hide.classList.remove('button-show');
+    hide.classList.add('button-hide');
+    show.classList.remove('button-hide');
+    show.classList.add('button-show');
 }
 
 
+// sign user in
+function signIn() {
+    // Sign into Firebase using popup auth & Google as the identity provider.
+    var provider = new firebase.auth.GoogleAuthProvider()
+    firebase.auth().signInWithPopup(provider)
+}
+
+// Signs-out of Friendly Chat.
+function signOut() {
+    // Sign out of Firebase.
+    firebase.auth().signOut()
+  } 
+
+  
+  // Returns the signed-in user's profile pic URL.
+  function getProfilePicUrl() {
+    return firebase.auth().currentUser.photoURL || '/images/profile_placeholder.png';
+  }
+  
+  // Returns the signed-in user's display name.
+  function getUserName() {
+    return firebase.auth().currentUser.displayName;
+  }
+  
+  // Returns true if a user is signed-in.
+  function isUserSignedIn() {
+      const user = firebase.auth().currentUser
+    return user;
+  }
+  // Adds a size to Google Profile pics URLs.
+function addSizeToGoogleProfilePic(url) {
+    if (url.indexOf('googleusercontent.com') !== -1 && url.indexOf('?') === -1) {
+      return url + '?sz=150';
+    }
+    return url;
+  }
+
+  function authStateObserver(user) {
+    const signInButton = document.querySelector('#sign-in')
+    const signOutButton = document.querySelector('#sign-out')
+    const userPicElement = document.querySelector('#user-pic');
+    const userNameElement = document.querySelector('#username');
+    const userInfoElement = document.querySelector('#user-info');
+    if (user) { // User is signed in!
+      // Get the signed-in user's profile pic and name.
+      var profilePicUrl = getProfilePicUrl();
+      var userName = getUserName();
+
+      // Set the user's profile pic and name.
+      userPicElement.style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(profilePicUrl) + ')';
+      userNameElement.textContent = userName;
+    //   // Show user's profile
+      userNameElement.removeAttribute('hidden');
+      userInfoElement.removeAttribute('hidden');
+      userPicElement.classList.remove('user-info-hidden');
+      
+        toggleButtons(signInButton, signOutButton)
+    } else { // User is signed out!
+        toggleButtons(signOutButton, signInButton)
+        
+      // Hide user's profile
+            userNameElement.setAttribute('hidden', 'true');
+            userPicElement.setAttribute('hidden', 'true');
+            userPicElement.classList.add('user-info-hidden');
+  
+    }
+  }
+
+
+  // Saves a new message to your Cloud Firestore database.
+function saveProject() {
+    // Add a new message entry to the database.
+    return db.collection('projects').doc("projects").set({
+      name: getUserName(),
+      text: JSON.parse(JSON.stringify(todoList.projects)),
+    }).catch(function(error) {
+      console.error('Error writing new message to database', error);
+    });
+  }
+
+  // Initiate Firebase Auth.
+  function initFirebaseAuth() {
+    // Listen to auth state changes.
+    firebase.auth().onAuthStateChanged(authStateObserver);
+  }

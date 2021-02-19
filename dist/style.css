@@ -56,6 +56,40 @@ input {
     background-repeat: no-repeat;
 }
 
+.sign-in-out-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+
+.user-info{
+    padding: 0.25rem;
+    background-color: rgb(193, 193, 193);
+    border: 2px solid rgb(0, 0, 0);
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#user-pic{
+    height: 30px;
+    width: 30px;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+}
+
+.button-show{
+    display: block;
+    margin-right: 0.5rem;
+}
+
+.button-hide{
+    display: none;
+}
+
 .two-columns{
     height: calc(100vh - 6rem);
     margin-top: 6rem;
