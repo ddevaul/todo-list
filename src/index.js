@@ -256,6 +256,8 @@ function addSizeToGoogleProfilePic(url) {
     //   // Show user's profile
       userNameElement.removeAttribute('hidden');
       userInfoElement.removeAttribute('hidden');
+      userPicElement.removeAttribute('hidden');
+
       userPicElement.classList.remove('user-info-hidden');
       const docRef = db.collection('projects').doc('projects');
       docRef.get().then((doc) => {
@@ -273,6 +275,8 @@ function addSizeToGoogleProfilePic(url) {
     })
         toggleButtons(signInButton, signOutButton)
     } else { // User is signed out!
+        userPicElement.setAttribute('hidden', 'true')
+        userNameElement.setAttribute('hidden', 'true')
         toggleButtons(signOutButton, signInButton)
         console.log("todo list" )
         console.log(todoList)
