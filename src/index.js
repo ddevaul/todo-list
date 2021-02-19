@@ -1,6 +1,7 @@
 import {ToDoItem, ProjectItem, todoList} from './model'
 import {makeToDoItemView, makeProjectItemView, todoListView, createAddToDoItemButton} from './view'
 const db = firebase.firestore()
+let signedIn = false
 localStorage.clear()
 console.log("local storage clear")
 initialize()
@@ -52,7 +53,7 @@ function addProjectEventListeners(project, projectView){
     projectView.doneEditingButton.addEventListener('click', () => {
         projectView.makeProjectUneditable()
         project.title = projectView.fixedTitle.textContent
-        saveToLocalStorage()
+        save()
     })  
 }
 
@@ -130,41 +131,41 @@ function loadItems(){
 function addToDoItemEventHandlers(item, itemView){
     itemView.deleteButton.addEventListener('click', () => {
         deleteItem(item)
-        saveToLocalStorage()
+        save()
     })
     itemView.title.addEventListener('change', () => {
         item.title = itemView.title.value
-        saveToLocalStorage()
+        save()
     })
 
     itemView.description.addEventListener('change', () => {
         item.description = itemView.description.value
-        saveToLocalStorage()
+        save()
     })
     itemView.date.addEventListener('change', () => {
         item.date = itemView.date.value
-        saveToLocalStorage()
+        save()
     })
     itemView.completedButton.addEventListener('click', () => {
         item.completed = !item.completed
         itemView.toggleCompletedStyling()
-        saveToLocalStorage()
+        save()
         })
 
     itemView.priority1.addEventListener('click', () => {
         itemView.selectPriority(itemView.priority1)
         item.priority = 1
-        saveToLocalStorage()
+        save()
     })
     itemView.priority2.addEventListener('click', () => {
         itemView.selectPriority(itemView.priority2)
         item.priority = 2
-        saveToLocalStorage()
+        save()
     })
     itemView.priority3.addEventListener('click', () => {
         itemView.selectPriority(itemView.priority3)
         item.priority = 3
-        saveToLocalStorage()
+        save()
     })
     itemView.addNote.addEventListener('click', () => {
         itemView.toggleDescription()
@@ -191,9 +192,10 @@ function deleteItem(item){
 }
 
 // save all the projects in local storage as a string
-function saveToLocalStorage(){
-    localStorage.setItem('projects', JSON.stringify(todoList.projects))
-    saveProject()
+function save(){
+    if (signedIn){
+        saveProject()
+    }
 }
 
 function toggleButtons(hide, show){
@@ -259,22 +261,23 @@ function addSizeToGoogleProfilePic(url) {
       userPicElement.removeAttribute('hidden');
 
       userPicElement.classList.remove('user-info-hidden');
-      const docRef = db.collection('projects').doc('projects');
+      const docRef = db.collection(`${user.uid}`).doc('projects');
       docRef.get().then((doc) => {
-        if (doc.data()) {
+         if (doc.data()) {
             console.log("data")
             console.log(doc.data())
             todoList.projects = doc.data().text
             console.log(todoList.projects)
             todoList.selectedProject = null
             loadProjects()
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
+        }  else {
+            console.log("No such document found.")
         }
     })
+        signedIn = true;
         toggleButtons(signInButton, signOutButton)
     } else { // User is signed out!
+        signedIn = false;
         userPicElement.setAttribute('hidden', 'true')
         userNameElement.setAttribute('hidden', 'true')
         toggleButtons(signOutButton, signInButton)
@@ -300,7 +303,7 @@ function addSizeToGoogleProfilePic(url) {
 function saveProject() {
     const user = firebase.auth().currentUser;
     // Add a new message entry to the database.
-    return db.collection(`'projects'`).doc('projects').set({
+    return db.collection(`${user.uid}`).doc('projects').set({
       name: getUserName(),
       text: JSON.parse(JSON.stringify(todoList.projects)),
     }).catch(function(error) {
