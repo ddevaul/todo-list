@@ -1,5 +1,6 @@
 # My Todo List App
-This is a todo list application I built using webpack, vanilla Javascript (using ES6 classes), HTML5 and CSS3.
+This is a todo list application I built using webpack, vanilla Javascript (using ES6 classes), HTML5, CSS3 and Firebase. 
+In addition to being hosted on gh pages at ddevaul.github.io/todo-list, I am hosting this app with Firebase at https://todolist-c8d65.firebaseapp.com/.
 
 ## Technologies
 ### Firebase
